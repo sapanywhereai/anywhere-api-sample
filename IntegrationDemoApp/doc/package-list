@@ -1,0 +1,16 @@
+com.sap.integration
+com.sap.integration.anywhere
+com.sap.integration.anywhere.dto
+com.sap.integration.anywhere.dto.enumeration
+com.sap.integration.anywhere.oauth
+com.sap.integration.core.integration
+com.sap.integration.core.service
+com.sap.integration.core.transformation
+com.sap.integration.erp.dto
+com.sap.integration.erp.dummy.conversion
+com.sap.integration.erp.dummy.entity
+com.sap.integration.erp.dummy.jpa
+com.sap.integration.utils
+com.sap.integration.utils.configuration
+com.sap.integration.utils.integrationdb.entity
+com.sap.integration.utils.integrationdb.jpa

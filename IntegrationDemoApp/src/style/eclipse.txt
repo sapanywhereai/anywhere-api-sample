@@ -1,0 +1,17 @@
+Import the following java style files into eclipse:
+eclipse_demoApp_JavaStyleCleanUp.xml -> Window / Preferences // Java / Code Style / Clean Up // Import...
+eclipse_demoApp_JavaStyleFormatter.xml -> Window / Preferences // Java / Code Style / Formatter // Import...
+
+Configure additional eclispe settings:
+Window / Preferences // Java / Editor / Save Actions // Perform the selected actions on save - check
+Window / Preferences // Java / Editor / Save Actions // Perform the selected actions on save / Format source code - check
+Window / Preferences // Java / Editor / Save Actions // Perform the selected actions on save / Format source code / Format all lines - check
+Window / Preferences // Java / Editor / Save Actions // Perform the selected actions on save / Organize imports - check
+
+"Nice to have" to match the formatter from above:
+Window / Preferences // General / Editors / Text Editors // Show print margin - check
+Window / Preferences // General / Editors / Text Editors // Print margin column - 130
+
+Note:
+Yes, the "project specific settings" (.settings/...), we decided not to use this right now :P
+

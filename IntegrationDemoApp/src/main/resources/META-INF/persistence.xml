@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+	<persistence-unit name="integrationDb" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.sap.integration.utils.integrationdb.entity.IntegrationState</class>
+		<class>com.sap.integration.utils.integrationdb.entity.Range</class>
+		<properties>
+			<property name="javax.persistence.schema-generation.database.action" value="create" />
+			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlite:IntegrationDemoApp_integration.db" />
+			<property name="eclipselink.logging.level" value="OFF" />
+			<property name="eclipselink.target-database" value="com.sap.integration.utils.integrationdb.jpa.DatabasePlatform" />
+			<property name="eclipselink.session.customizer" value="com.sap.integration.utils.integrationdb.jpa.SQLiteSession" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+		</properties>
+	</persistence-unit>
+	<persistence-unit name="dummyERP" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>com.sap.integration.erp.dummy.entity.Customer</class>
+		<class>com.sap.integration.erp.dummy.entity.Invoice</class>
+		<class>com.sap.integration.erp.dummy.entity.InvoiceLine</class>
+		<class>com.sap.integration.erp.dummy.entity.Item</class>
+		<class>com.sap.integration.erp.dummy.entity.Payment</class>
+		<class>com.sap.integration.erp.dummy.entity.PaymentLine</class>
+		<class>com.sap.integration.erp.dummy.entity.SalesDelivery</class>
+		<class>com.sap.integration.erp.dummy.entity.SalesDeliveryLine</class>
+		<class>com.sap.integration.erp.dummy.entity.SalesOrder</class>
+		<class>com.sap.integration.erp.dummy.entity.SalesOrderLine</class>
+		<class>com.sap.integration.erp.dummy.entity.StockData</class>
+		<class>com.sap.integration.erp.dummy.entity.Warehouse</class>
+		<class>com.sap.integration.erp.dummy.entity.PaymentReport</class>
+		<class>com.sap.integration.erp.dummy.entity.InventoryReport</class>
+		<properties>
+			<property name="javax.persistence.schema-generation.database.action" value="create" />
+			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlite:IntegrationDemoApp_dummyERP.db" />
+			<property name="eclipselink.logging.level" value="OFF" />
+			<property name="eclipselink.target-database" value="com.sap.integration.utils.integrationdb.jpa.DatabasePlatform" />
+			<property name="eclipselink.session.customizer" value="com.sap.integration.utils.integrationdb.jpa.SQLiteSession" />
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode" value="database" />
+		</properties>
+	</persistence-unit>
+</persistence>
