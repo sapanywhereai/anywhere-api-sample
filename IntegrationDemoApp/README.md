@@ -150,15 +150,15 @@ Executing from Eclipse gives you the possibility to debug the solution; e.g. put
 
 Business Flow Diagram
 ---------------------
-![BizFlow](https://github.com/SAP/anywhere.git/IntegrationDemoApp/flows/bizFlow.png "bizFlow.png")
+![BizFlow](https://github.com/SAP/anywhere/blob/master/IntegrationDemoApp/flows/bizFlow.png "bizFlow.png")
 
 Data Flow Diagram
 -----------------
-![DataFlow](https://github.com/SAP/anywhere.git/IntegrationDemoApp/flows/DataFlow.png "DataFlow.png")
+![DataFlow](https://github.com/SAP/anywhere/blob/master/IntegrationDemoApp/flows/DataFlow.png "DataFlow.png")
 
 Class Diagram
 -------------
-![ClassDiagram](https://github.com/SAP/anywhere.git/IntegrationDemoApp/flows/coreClassDiagram.png "coreClassDiagram.png")
+![ClassDiagram](https://github.com/SAP/anywhere/blob/master/IntegrationDemoApp/flows/coreDiagram.png "coreClassDiagram.png")
 More class diagrams are available in their raw format at `IntegrationDemoApp/src/main/resources/Diagrams/*.ucls`.
 
 ToDo
