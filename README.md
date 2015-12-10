@@ -3,7 +3,7 @@
 
 What is it?
 -----------
-Anywhere project shows you how to use the [Anywhere OpenAPI](https://dev-us.sapanywhere.com/api) effectively and provides use cases how to integrate SAP Anywhere with 3rd party ERP softwares.
+This project shows you how to use the [SAP Anywhere OpenAPI](https://dev-us.sapanywhere.com/api) effectively and provides use cases how to integrate SAP Anywhere with 3rd party ERP softwares.
 
 And... it's free and open source: Anywhere is licensed under the Apache License, Version 2.0 - see LICENSE.txt.
 
