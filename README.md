@@ -10,3 +10,5 @@ And... it's free and open source: licensed under the Apache License, Version 2.0
 Get started!
 ------------
 Read the [Developer Guide](https://dev-us.sapanywhere.com/api/overview/doc_homepage) and refer to the [API Reference](https://dev-us.sapanywhere.com/api).
+
+Don't miss the [README.md](https://github.com/SAP/anywhere/blob/master/IntegrationDemoApp/README.md) for Integration Demo App.
