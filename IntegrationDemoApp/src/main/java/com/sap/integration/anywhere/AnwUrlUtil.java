@@ -1,5 +1,19 @@
 package com.sap.integration.anywhere;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.security.KeyStore;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -77,7 +91,7 @@ public class AnwUrlUtil {
     }
 
     /**
-     * Method returns URL, which is used for getting Access Token. Sample of returned URL as string: <br>
+     * Method returns URL with URL parameters, which is used for getting Access Token. Sample of returned URL as string: <br>
      * <br>
      * <code>https://idpserver:idpport/sld/oauth2/token?client_id=client_id&client_secret=client_secret&refresh_token=refresh_token&grant_type=refresh_token</code>
      * <br>
@@ -88,7 +102,7 @@ public class AnwUrlUtil {
      * @return string URL used for getting Access Token
      * @throws Exception possible exception during loading of configuration data
      */
-    public static String getAccessTokenUrl() throws Exception {
+    public static String getAccessTokenUrlWithUrlParams() throws Exception {
         UrlBuilder url = new UrlBuilder(getOauthBaseUrl());
         url.parameter("client_id", Property.getAppId());
         url.parameter("client_secret", Property.getAppSecret());
@@ -97,5 +111,53 @@ public class AnwUrlUtil {
         String baseUrl = url.get();
         LOG.debug("Access Token - created URL = " + baseUrl);
         return baseUrl;
+    }
+    
+    
+    
+    public static String getAccessTokenViaPost() throws Exception {
+
+    	KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+    	keyStore.load(new FileInputStream(Property.getAnwCertificate()), "changeit".toCharArray()); 
+		TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+		tmf.init(keyStore);
+		SSLContext ctx = SSLContext.getInstance("TLS");
+		ctx.init(null, tmf.getTrustManagers(), null);
+		SSLSocketFactory sslFactory = ctx.getSocketFactory();
+    	
+		String params = "client_id="+URLEncoder.encode(Property.getAppId(),"UTF-8"); 
+		params += "&";
+		params += "client_secret="+URLEncoder.encode(Property.getAppSecret(),"UTF-8");
+		params += "&";
+		params += "grant_type=refresh_token";
+		params += "&";
+		params += "refresh_token="+URLEncoder.encode(Property.getRefreshToken(),"UTF-8");
+		
+		URL urlPost = new URL(getOauthBaseUrl());
+		HttpsURLConnection con = (HttpsURLConnection)urlPost.openConnection();
+		con.setSSLSocketFactory(sslFactory);
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+		con.setDoOutput(true); 
+		con.setDoInput(true); 
+	
+		DataOutputStream output = new DataOutputStream(con.getOutputStream());  
+	
+	
+		output.writeBytes(params);
+	
+		output.close();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+        StringBuffer inputLine = new StringBuffer();
+        String tmp; 
+        while ((tmp = br.readLine()) != null) {
+            inputLine.append(tmp);
+            System.out.println(tmp);
+        }
+        br.close();
+		
+	    return inputLine.toString(); 
     }
 }

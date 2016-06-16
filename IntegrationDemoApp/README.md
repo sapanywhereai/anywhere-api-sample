@@ -1,6 +1,6 @@
 Demo Application for integration of SAP Anywhere with ERP systems
 =================================================================
-a java application providing samples how to integrate SAP Anywhere with any ERP system by means of [SAP Anywhere's OpenAPI](https://dev-eu.sapanywhere.com/api).
+a java application providing samples how to integrate SAP Anywhere with any ERP system by means of [SAP Anywhere's OpenAPI](https://doc-us.sapanywhere.com/api).
 
 Table of contents
 -----------------
@@ -42,12 +42,12 @@ mvn clean install
 
 Getting Started
 ---------------
-If you do not have access to SAP Anywhere tenant, go to the [SAP Anywhere Solution Portal](https://eap-us.sapanywhere.com) and get your own trial account.
+If you do not have access to SAP Anywhere tenant, go to the [SAP Anywhere Developer Center](https://dev-us.sapanywhere.com) and get your own developer sandbox.
 
 
 Establish Connection to SAP Anywhere
 ------------------------------------
-Create [Private App](https://dev-eu.sapanywhere.com/manual/private_app) in your SAP Anywhere tenant.
+Create [Private App](https://doc-us.sapanywhere.com/api/app/private_app) in your SAP Anywhere tenant.
 Create `config.properties` in your user's home folder:
 ```bash
 cd ~
@@ -67,7 +67,7 @@ ANW_SERVER = notDefined
 # ANW_PORT - port of SAP Anywhere application server
 ANW_PORT = notDefined
 #
-# ANW_CERTIFICATE - the IntegrationDemoApp does not use authentication with certificates, implement this for productive usage
+# ANW_CERTIFICATE - full path to java keystore (.jks) that holds the certificate for SAP Anywhere landscape
 ANW_CERTIFICATE = notDefined
 ##################################################
 
