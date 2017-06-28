@@ -12,3 +12,5 @@ Get started!
 Check out the [Developer Center](https://dev-us.sapanywhere.com) and refer to the [API Documentation](https://doc-us.sapanywhere.com/api).
 
 Don't miss the [README.md](https://github.com/SAP/anywhere/blob/master/IntegrationDemoApp/README.md) for Integration Demo App.
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
