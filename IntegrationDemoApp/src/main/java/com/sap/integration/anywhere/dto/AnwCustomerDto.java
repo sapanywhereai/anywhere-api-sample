@@ -23,6 +23,7 @@ public class AnwCustomerDto implements IAnwDto {
     private AnwCustomerStatusDto status;
     private AnwMarketingStatusDto marketingStatus;
     private DateTime updateTime;
+    private String displayName;
 
     public AnwCustomerDto() {
     }
@@ -143,5 +144,13 @@ public class AnwCustomerDto implements IAnwDto {
         sb.append("]");
         return sb.toString();
     }
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 
 }

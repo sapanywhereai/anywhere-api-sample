@@ -50,10 +50,9 @@ public abstract class BaseService {
                 .append(service)
                 .parameter("limit", 1)
                 .parameter("offset", 0)
-                .parameter("filter", anwQueryFilter)
-                .parameter("access_token", Property.getAccessToken());
+                .parameter("filter", anwQueryFilter);
 
-        AnwSimpleResponse response = AnwServiceCall.get(urlBuilder);
+        AnwSimpleResponse response = AnwServiceCall.get(urlBuilder, null);
         List<IAnwDto> anwCustomer;
         try {
             anwCustomer = (List<IAnwDto>) JsonUtil.getObjects(response.getContent(), anwIntegrationState.getDtoClass());
@@ -92,10 +91,9 @@ public abstract class BaseService {
                     .parameter("filter",
                             "creationTime gt '" + DateUtil.convertDateTimeToString(fromDate) + "' and "
                           + "creationTime lt '" + DateUtil.convertDateTimeToString(toDate) + "' ")
-                    .parameter("expand", queryExpand)
-                    .parameter("access_token", Property.getAccessToken());
+                    .parameter("expand", queryExpand);
 
-            anwObjectsPage = (List<IAnwDto>) JsonUtil.getObjects(AnwServiceCall.get(urlBuilder).getContent(),
+            anwObjectsPage = (List<IAnwDto>) JsonUtil.getObjects(AnwServiceCall.get(urlBuilder, null).getContent(),
                     anwIntegrationState.getDtoClass());
             anwObjects.addAll(anwObjectsPage);
             offset += AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT;
@@ -124,10 +122,9 @@ public abstract class BaseService {
                     .parameter("offset", offset)
                     .parameter("orderby", "updateTime")
                     .parameter("filter", "updateTime gt '"
-                            + DateUtil.convertDateTimeToString(anwIntegrationState.getLastSyncTime()) + "'")
-                    .parameter("access_token", Property.getAccessToken());
+                            + DateUtil.convertDateTimeToString(anwIntegrationState.getLastSyncTime()) + "'");
 
-            anwObjectsPage = (List<IAnwDto>) JsonUtil.getObjects(AnwServiceCall.get(urlBuilder).getContent(),
+            anwObjectsPage = (List<IAnwDto>) JsonUtil.getObjects(AnwServiceCall.get(urlBuilder, null).getContent(),
                     anwIntegrationState.getDtoClass());
             anwObjects.addAll(anwObjectsPage);
             offset += AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT;
@@ -147,8 +144,7 @@ public abstract class BaseService {
 
         UrlBuilder urlBuilder = new UrlBuilder()
                 .append(AnwUrlUtil.getOpenApiBaseUrl())
-                .append(service)
-                .parameter("access_token", Property.getAccessToken());
+                .append(service);
 
         for (IErpDto erpObject : erpObjects) {
             AnwSimpleResponse response = null;
@@ -159,7 +155,7 @@ public abstract class BaseService {
             IAnwDto anwObject = getAnwObject(getAnwQueryFilter(erpObject));
             IAnwDto dtoToUpdate = erpObject.transform();
             if (anwObject == null) { // create
-                response = AnwServiceCall.post(urlBuilder, dtoToUpdate);
+                response = AnwServiceCall.post(urlBuilder, dtoToUpdate, null);
                 if (response != null && !response.isError()) {
                     createdCount++;
                 }
@@ -169,7 +165,7 @@ public abstract class BaseService {
                         || lastErpSyncTime.isAfter(anwObject.getLastSyncTime()))) {
                     urlPatch.append("/");
                     urlPatch.append(anwObject.getId().toString());
-                    response = AnwServiceCall.patch(urlPatch, dtoToUpdate);
+                    response = AnwServiceCall.patch(urlPatch, dtoToUpdate, null);
                     if (response != null && !response.isError()) {
                         updatedCount++;
                     }

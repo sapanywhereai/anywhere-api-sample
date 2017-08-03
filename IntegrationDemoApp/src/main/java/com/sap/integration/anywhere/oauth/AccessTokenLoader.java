@@ -5,9 +5,12 @@ import java.net.URI;
 //import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.sap.integration.anywhere.AnwServiceCall;
 import com.sap.integration.anywhere.AnwUrlUtil;
-import com.sap.integration.utils.HttpsCall;
+import com.sap.integration.utils.HttpsCallUtil;
 import com.sap.integration.utils.JsonUtil;
 import com.sap.integration.utils.UrlBuilder;
 import com.sap.integration.utils.configuration.Property;
@@ -15,11 +18,11 @@ import com.sap.integration.utils.configuration.Property;
 /**
  * Class stores methods used for retrieving, processing and saving access token from SAP Anywhere into configuration file.
  */
+@Component
 public class AccessTokenLoader {
 
     private static final Logger LOG = Logger.getLogger(AccessTokenLoader.class);
 
-    
     /**
      * Default Method, which retrieves access token from SAP Anywhere, save it and return it.
      * 
@@ -43,7 +46,7 @@ public class AccessTokenLoader {
     	String content = "";
     	if ("GET".equalsIgnoreCase(type)) {
 	        URI uri = new UrlBuilder(AnwUrlUtil.getAccessTokenUrlWithUrlParams()).getURI();
-	        content = HttpsCall.get(uri).getContent();
+	        content = HttpsCallUtil.get(uri).getContent();
     	}
     	else if ("POST".equalsIgnoreCase(type)) {
     		content = AnwUrlUtil.getAccessTokenViaPost(); 

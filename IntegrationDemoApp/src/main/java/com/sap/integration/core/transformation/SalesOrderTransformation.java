@@ -128,10 +128,9 @@ public class SalesOrderTransformation {
                     .parameter("offset", 0)
                     .parameter("select", "id")
                     .parameter("filter",
-                            "customerCode eq '" + ((erpSo.getCustomer() != null) ? erpSo.getCustomer().getCode() : "") + "'")
-                    .parameter("access_token", Property.getAccessToken());
+                            "customerCode eq '" + ((erpSo.getCustomer() != null) ? erpSo.getCustomer().getCode() : "") + "'");
 
-            AnwSimpleResponse datasetJson = AnwServiceCall.get(urlBuilder);
+            AnwSimpleResponse datasetJson = AnwServiceCall.get(urlBuilder, null);
             if (datasetJson.hasContent()) {
                 List<AnwCustomerDto> anwCustomerDtos = (new ObjectMapper()).readValue(datasetJson.getContent(),
                         new TypeReference<List<AnwCustomerDto>>() {
@@ -166,10 +165,9 @@ public class SalesOrderTransformation {
                             .parameter("limit", 100)
                             .parameter("offset", 0)
                             .parameter("select", "id")
-                            .parameter("filter", "code eq '" + anwSku.getCode() + "' and name eq '" + anwSku.getName() + "'")
-                            .parameter("access_token", Property.getAccessToken());
+                            .parameter("filter", "code eq '" + anwSku.getCode() + "' and name eq '" + anwSku.getName() + "'");
 
-                    AnwSimpleResponse datasetJson = AnwServiceCall.get(urlBuilder);
+                    AnwSimpleResponse datasetJson = AnwServiceCall.get(urlBuilder, null);
                     if (datasetJson.hasContent()) {
                         List<AnwProductDto> anwProductDtos = (new ObjectMapper()).readValue(datasetJson.getContent(),
                                 new TypeReference<List<AnwProductDto>>() {

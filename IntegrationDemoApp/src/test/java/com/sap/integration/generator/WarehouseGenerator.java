@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.sap.integration.erp.dummy.entity.Warehouse;
 
+
 public class WarehouseGenerator {
 
     public static void main(String[] args) {

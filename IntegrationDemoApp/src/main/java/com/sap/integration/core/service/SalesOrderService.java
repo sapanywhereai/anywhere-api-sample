@@ -44,10 +44,9 @@ public class SalesOrderService {
                 .append(SALES_ORDERS)
                 .parameter("limit", 1)
                 .parameter("offset", 0)
-                .parameter("filter", "id eq " + id)
-                .parameter("access_token", Property.getAccessToken());
+                .parameter("filter", "id eq " + id);
 
-        AnwSimpleResponse response = AnwServiceCall.get(urlBuilder);
+        AnwSimpleResponse response = AnwServiceCall.get(urlBuilder, null);
         List<AnwSalesOrderDto> anwSalesOrder;
         try {
             anwSalesOrder = JsonUtil.getObjects(response.getContent(), AnwSalesOrderDto.class);
@@ -74,10 +73,9 @@ public class SalesOrderService {
                 .append(SALES_ORDERS)
                 .parameter("limit", 1)
                 .parameter("offset", 0)
-                .parameter("filter", "docNumber eq '" + docNumber + "'")
-                .parameter("access_token", Property.getAccessToken());
+                .parameter("filter", "docNumber eq '" + docNumber + "'");
 
-        AnwSimpleResponse response = AnwServiceCall.get(urlBuilder);
+        AnwSimpleResponse response = AnwServiceCall.get(urlBuilder, null);
         List<AnwSalesOrderDto> anwSalesOrder;
         try {
             anwSalesOrder = JsonUtil.getObjects(response.getContent(), AnwSalesOrderDto.class);
@@ -116,10 +114,9 @@ public class SalesOrderService {
                             "filter",
                             "updateTime gt '" + DateUtil.convertDateTimeToString(integrationState.getLastSyncTime())
                                     + "'")
-                    .parameter("expand", "productLines")
-                    .parameter("access_token", Property.getAccessToken());
+                    .parameter("expand", "productLines");
 
-            anwSalesOrdersPage = JsonUtil.getObjects(AnwServiceCall.get(urlBuilder).getContent(), AnwSalesOrderDto.class);
+            anwSalesOrdersPage = JsonUtil.getObjects(AnwServiceCall.get(urlBuilder, null).getContent(), AnwSalesOrderDto.class);
             anwSalesOrders.addAll(anwSalesOrdersPage);
             offset += AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT;
         } while (anwSalesOrdersPage.size() == AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT);
@@ -143,8 +140,7 @@ public class SalesOrderService {
         int updatedCount = 0;
         UrlBuilder urlBuilder = new UrlBuilder()
                 .append(AnwUrlUtil.getOpenApiBaseUrl())
-                .append(SALES_ORDERS)
-                .parameter("access_token", Property.getAccessToken());
+                .append(SALES_ORDERS);
         for (ErpSalesOrderDto erpSalesOrder : erpSalesOrders) {
         	AnwSalesOrderDto anwSalesOrder = null;
         	if (erpSalesOrder.getAnwId() != null) {
@@ -153,7 +149,7 @@ public class SalesOrderService {
             AnwSimpleResponse response = null;
             if (anwSalesOrder == null) { // create
                 AnwSalesOrderDto anwSalesOrderToCreate = SalesOrderTransformation.run(erpSalesOrder);
-                response = AnwServiceCall.post(urlBuilder, anwSalesOrderToCreate);
+                response = AnwServiceCall.post(urlBuilder, anwSalesOrderToCreate, null);
                 if (response != null) {
 
                     // Update sales order data in ERP - insert id of sales order just created in SAP Anywhere (parameter anwId)
@@ -174,7 +170,7 @@ public class SalesOrderService {
             } else { // update
                 if (erpSalesOrder.getLastUpdateTime().isAfter(anwSalesOrder.getUpdateTime())) {
                 	urlBuilder.append("/" + erpSalesOrder.getAnwId());
-                    response = AnwServiceCall.patch(urlBuilder, SalesOrderTransformation.run(erpSalesOrder));
+                    response = AnwServiceCall.patch(urlBuilder, SalesOrderTransformation.run(erpSalesOrder), null);
                     if (response != null) {
                         updatedCount++;
                     }

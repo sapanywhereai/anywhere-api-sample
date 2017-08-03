@@ -22,19 +22,20 @@
 	<persistence-unit name="dummyERP" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>com.sap.integration.erp.dummy.entity.Customer</class>
-		<class>com.sap.integration.erp.dummy.entity.Invoice</class>
+		<!-- <class>com.sap.integration.erp.dummy.entity.Invoice</class>
 		<class>com.sap.integration.erp.dummy.entity.InvoiceLine</class>
-		<class>com.sap.integration.erp.dummy.entity.Item</class>
 		<class>com.sap.integration.erp.dummy.entity.Payment</class>
 		<class>com.sap.integration.erp.dummy.entity.PaymentLine</class>
 		<class>com.sap.integration.erp.dummy.entity.SalesDelivery</class>
-		<class>com.sap.integration.erp.dummy.entity.SalesDeliveryLine</class>
+		<class>com.sap.integration.erp.dummy.entity.SalesDeliveryLine</class> 
+		<class>com.sap.integration.erp.dummy.entity.PaymentReport</class>
+		<class>com.sap.integration.erp.dummy.entity.InventoryReport</class> -->
+		<class>com.sap.integration.erp.dummy.entity.Item</class>
 		<class>com.sap.integration.erp.dummy.entity.SalesOrder</class>
 		<class>com.sap.integration.erp.dummy.entity.SalesOrderLine</class>
 		<class>com.sap.integration.erp.dummy.entity.StockData</class>
 		<class>com.sap.integration.erp.dummy.entity.Warehouse</class>
-		<class>com.sap.integration.erp.dummy.entity.PaymentReport</class>
-		<class>com.sap.integration.erp.dummy.entity.InventoryReport</class>
+		
 		<properties>
 			<property name="javax.persistence.schema-generation.database.action" value="create" />
 			<property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC" />

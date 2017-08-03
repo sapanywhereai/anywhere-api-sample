@@ -1,0 +1,9 @@
+*.class
+**.class
+*/target/
+*.project
+*.classpath
+sqlite3.exe
+*/.settings
+**/IntegrationDemoApp_dummyERP.db
+**/IntegrationDemoApp_integration.db

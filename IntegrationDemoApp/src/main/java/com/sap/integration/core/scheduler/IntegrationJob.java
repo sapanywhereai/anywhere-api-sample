@@ -7,14 +7,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.sap.integration.core.integration.CustomerIntegration;
-import com.sap.integration.core.integration.InventoryCountingIntegration;
-import com.sap.integration.core.integration.InvoiceIntegration;
-import com.sap.integration.core.integration.PaymentIntegration;
 import com.sap.integration.core.integration.ProductIntegration;
-import com.sap.integration.core.integration.SalesDeliveryIntegration;
 import com.sap.integration.core.integration.SalesOrderIntegration;
-import com.sap.integration.core.service.InventoryReportService;
-import com.sap.integration.core.service.PaymentReportService;
 import com.sap.integration.utils.DateUtil;
 
 public class IntegrationJob implements Job {
@@ -68,26 +62,6 @@ public class IntegrationJob implements Job {
                 // use and comment/uncomment it respectively.
                 SalesOrderIntegration.syncFromSapAnywhere();
                 // SalesOrderIntegration.syncToSapAnywhere();
-
-                // STOCK AFFECTING SALES DOCUMENTS
-                try {
-                    SalesDeliveryIntegration.syncFromSapAnywhere();
-                } catch (Exception e) {
-                    // Integration process continue in case of erroneous SalesDelivery integration, i.e. no exception is
-                    // thrown up
-                    e.printStackTrace();
-                }
-
-                // FINANCIAL SALES DOCUMENTS
-                InvoiceIntegration.syncFromSapAnywhere();
-                PaymentIntegration.syncFromSapAnywhere();
-
-                // STOCK
-                InventoryCountingIntegration.syncToSapAnywhere();
-
-                // REPORTS
-                PaymentReportService.doReports();
-                InventoryReportService.doReports();
 
             } catch (Exception e) {
                 LOG.error("Exception " + e.getMessage(), e);

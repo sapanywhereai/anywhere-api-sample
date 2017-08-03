@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.sap.integration.erp.dummy.entity.StockData;
 
+
 /**
  * Class, which provides methods for identification ranges of transactions in StockData table which will be subsequently
  * processed. This service belongs integration application.

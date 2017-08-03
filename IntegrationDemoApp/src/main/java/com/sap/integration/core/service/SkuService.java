@@ -32,7 +32,7 @@ public class SkuService {
     public static final AnwSkuDto findSku(String skuCode) throws Exception {
 
         if (skuCode != null) {
-            AnwSimpleResponse result = AnwServiceCall.get(getSkuLinkFind(skuCode));
+            AnwSimpleResponse result = AnwServiceCall.get(getSkuLinkFind(skuCode), null);
             LOG.info("SKU - result of finding sku with code " + skuCode + ": " + result.getContent());
 
             if (result != null) {
@@ -81,7 +81,7 @@ public class SkuService {
     /**
      * Method returns URL, which is used for finding an existing SKU in SAP Anywhere and getting information from it. <br>
      * Sample of URL: <br>
-     * <code>https://anywhereserver:port/api-gateway/v1/SKUs?$select=id,code,name&filter=code eq 'skuCode' &limit=1&offset=0&access_token=access_token_value</code>
+     * <code>https://anywhereserver:port/v1/SKUs?$select=id,code,name&filter=code eq 'skuCode' &limit=1&offset=0&access_token=access_token_value</code>
      * 
      * @return URL for finding SKUs
      * @throws Exception possible exception thrown by class, which loads configuration
@@ -90,7 +90,6 @@ public class SkuService {
         String link = new UrlBuilder()
                 .append(AnwUrlUtil.getOpenApiBaseUrl())
                 .append("SKUs")
-                .parameter("access_token", Property.getAccessToken())
                 .parameter("$select", "id,code,name")
                 .parameter("filter", "code eq '" + skuCode + "'")
                 .parameter("limit", 1)
@@ -114,7 +113,7 @@ public class SkuService {
                 .append("SKUs/" + skuId + "/getWarehouseInfos")
                 .parameter("access_token", Property.getAccessToken());
 
-        AnwSimpleResponse response = AnwServiceCall.post(urlBuilder, "");
+        AnwSimpleResponse response = AnwServiceCall.post(urlBuilder, "", null);
         AnwSkuAllWarehouseInfoDto anwAllSkuWarehouseInfos;
         try {
             anwAllSkuWarehouseInfos = JsonUtil.getObject(response.getContent(), AnwSkuAllWarehouseInfoDto.class);

@@ -2,11 +2,14 @@ package com.sap.integration.anywhere;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import com.sap.integration.anywhere.oauth.AccessTokenLoader;
 import com.sap.integration.utils.HttpsCall;
@@ -16,9 +19,10 @@ import com.sap.integration.utils.configuration.Property;
 /**
  * Class, which contains helper methods used for making HTTP calls to SAP Anywhere.
  */
+@Service
 public class AnwServiceCall {
 
-    private static final Logger LOG = Logger.getLogger(AnwServiceCall.class);
+    private final static Logger LOG = Logger.getLogger(AnwServiceCall.class);
 
     /**
      * Method, which make HTTP GET requests.
@@ -26,8 +30,8 @@ public class AnwServiceCall {
      * @param urlBuilder - URL Builder with created URL used for connection
      * @return instance of AnwSimpleResponse containing response
      */
-    public static AnwSimpleResponse get(final UrlBuilder urlBuilder) {
-        return get(urlBuilder.get());
+    public static AnwSimpleResponse get(final UrlBuilder urlBuilder, final Map<String, String> headers) {
+        return get(urlBuilder.get(), headers);
     }
 
     /**
@@ -36,13 +40,13 @@ public class AnwServiceCall {
      * @param url - string URL for connection
      * @return instance of AnwSimpleResponse containing response
      */
-    public static AnwSimpleResponse get(String url) {
+    public static AnwSimpleResponse get(String url, final Map<String, String> headers) {
         AnwSimpleResponse response = null;
         try {
-            response = HttpsCall.get(new URI(url), new AnwSimpleResponse(url));
+            response = HttpsCall.get(new URI(url), new AnwSimpleResponse(url), headers);
             if (responseRequiresAccessTokenRefresh(response)) {
                 url = loadAndUpdateAccessToken(url);
-                response = HttpsCall.get(new URI(url), new AnwSimpleResponse(url));
+                response = HttpsCall.get(new URI(url), new AnwSimpleResponse(url), headers);
             }
         } catch (Exception e) {
             LOG.error("Error while executing: " + url);
@@ -58,8 +62,8 @@ public class AnwServiceCall {
      * @param data - data which will be send via HTTP POST
      * @return instance of AnwSimpleResponse containing response
      */
-    public static AnwSimpleResponse post(final UrlBuilder urlBuilder, final Object data) {
-        return post(urlBuilder.get(), data);
+    public static AnwSimpleResponse post(final UrlBuilder urlBuilder, final Object data, final Map<String, String> headers) {
+        return post(urlBuilder.get(), data, headers);
     }
 
     /**
@@ -69,13 +73,13 @@ public class AnwServiceCall {
      * @param data - data which will be send via HTTP POST
      * @return instance of AnwSimpleResponse containing response
      */
-    public static AnwSimpleResponse post(String url, final Object data) {
+    public static AnwSimpleResponse post(String url, final Object data, final Map<String, String> headers) {
         AnwSimpleResponse response = null;
         try {
-            response = HttpsCall.post(new URI(url), data, new AnwSimpleResponse(url));
+            response = HttpsCall.post(new URI(url), data, new AnwSimpleResponse(url), headers);
             if (responseRequiresAccessTokenRefresh(response)) {
                 url = loadAndUpdateAccessToken(url);
-                response = HttpsCall.post(new URI(url), data, new AnwSimpleResponse(url));
+                response = HttpsCall.post(new URI(url), data, new AnwSimpleResponse(url), headers);
             }
         } catch (Exception e) {
             LOG.error("Error while executing: " + url);
@@ -91,8 +95,8 @@ public class AnwServiceCall {
      * @param data - data which will be send via HTTP PATCH
      * @return instance of AnwSimpleResponse containing response
      */
-    public static AnwSimpleResponse patch(final UrlBuilder urlBuilder, final Object data) {
-        return patch(urlBuilder.get(), data);
+    public static AnwSimpleResponse patch(final UrlBuilder urlBuilder, final Object data, final Map<String, String> headers) {
+        return patch(urlBuilder.get(), data, headers);
     }
 
     /**
@@ -102,13 +106,13 @@ public class AnwServiceCall {
      * @param data - data which will be send via HTTP PATCH
      * @return instance of AnwSimpleResponse containing response
      */
-    public static AnwSimpleResponse patch(String url, final Object data) {
+    public static AnwSimpleResponse patch(String url, final Object data, Map<String, String> headers) {
         AnwSimpleResponse response = null;
         try {
-            response = HttpsCall.patch(new URI(url), data, new AnwSimpleResponse(url));
+            response = HttpsCall.patch(new URI(url), data, new AnwSimpleResponse(url), headers);
             if (responseRequiresAccessTokenRefresh(response)) {
                 url = loadAndUpdateAccessToken(url);
-                response = HttpsCall.patch(new URI(url), data, new AnwSimpleResponse(url));
+                response = HttpsCall.patch(new URI(url), data, new AnwSimpleResponse(url), headers);
             }
         } catch (Exception e) {
             LOG.error("Error while executing: " + url);
@@ -161,12 +165,20 @@ public class AnwServiceCall {
      * @return true - access token is missing <br>
      *         false - access token is not missing <br>
      */
-    private static boolean isBlankAccessToken(final String url) {
-        Matcher m = Pattern.compile(".*access_token=(.*?)(&.*|$)").matcher(url);
+    private static boolean isBlankAccessToken(final String access_token) {
+        Matcher m = Pattern.compile(".*access_token=(.*?)(&.*|$)").matcher(access_token);
         if (m.matches() && m.groupCount() >= 2) {
             String accessToken = m.group(1);
             return StringUtils.isBlank(accessToken);
         }
         return true;
     }
+    
+    public Map<String, String> preparedHeaders() throws Exception {
+		return new HashMap<String, String>() {
+			{
+				put("Access-Token", Property.getAccessToken());
+			}
+		};
+	}
 }

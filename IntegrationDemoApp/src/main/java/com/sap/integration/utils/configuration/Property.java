@@ -1,5 +1,6 @@
 package com.sap.integration.utils.configuration;
 
+import org.apache.commons.configuration.ConfigurationException;
 
 /**
  * Class which provides method for getting/saving properties from/to the configuration file. <br>
@@ -10,6 +11,7 @@ public class Property {
     public static final String ANW_SERVER = "ANW_SERVER";
     public static final String ANW_PORT = "ANW_PORT";
     public static final String ANW_CERTIFICATE = "ANW_CERTIFICATE";
+    public static final String URL_WEBHOOK_LISTEN_URL = "WEBHOOK_LISTEN_URL_";
 
     public static final String IDP_PROTOCOL = "IDP_PROTOCOL";
     public static final String IDP_SERVER = "IDP_SERVER";
@@ -167,4 +169,20 @@ public class Property {
     public static void saveUseDefaultWarehouse(String value) throws Exception {
         PropertyLoader.saveProperty(USE_DEFAULT_WAREHOUSE, value);
     }
+    
+	public static String getWebhookListenURL(String type) throws Exception {
+		return PropertyLoader.loadProperty(URL_WEBHOOK_LISTEN_URL + type);
+	}
+
+	public static void setWebhookListenURL(String type, String value) throws Exception {
+		PropertyLoader.saveProperty(URL_WEBHOOK_LISTEN_URL + type, value);
+	}
+	
+	public static void setWebhookEventId(String type, Long id) throws ConfigurationException {
+		PropertyLoader.saveProperty("WEBHOOK_" + type, id);
+	}
+	
+	public static Long getWebhookEventId(String type) throws Exception{
+		return Long.parseLong(PropertyLoader.loadProperty("WEBHOOK_"+ type));
+	}
 }
