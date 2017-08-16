@@ -8,7 +8,6 @@ import org.apache.http.HttpResponse;
 import org.apache.log4j.Logger;
 
 import com.sap.integration.utils.JsonUtil;
-import com.sap.integration.utils.SimpleResponse;
 
 /**
  * Class, which represents response of SAP Anywhere HTTP calls. It contains information about error code, url, message or parsed

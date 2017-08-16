@@ -1,9 +1,12 @@
 package com.sap.integration.utils.configuration;
 
 import org.apache.commons.configuration.ConfigurationException;
+import org.joda.time.DateTime;
+import org.springframework.util.StringUtils;
 
 /**
- * Class which provides method for getting/saving properties from/to the configuration file. <br>
+ * Class which provides method for getting/saving properties from/to the
+ * configuration file. <br>
  */
 public class Property {
 
@@ -11,7 +14,7 @@ public class Property {
     public static final String ANW_SERVER = "ANW_SERVER";
     public static final String ANW_PORT = "ANW_PORT";
     public static final String ANW_CERTIFICATE = "ANW_CERTIFICATE";
-    public static final String URL_WEBHOOK_LISTEN_URL = "WEBHOOK_LISTEN_URL_";
+    public static final String WEBHOOK_LISTEN_BASE_URL = "WEBHOOK_LISTEN_BASE_URL";
 
     public static final String IDP_PROTOCOL = "IDP_PROTOCOL";
     public static final String IDP_SERVER = "IDP_SERVER";
@@ -24,11 +27,13 @@ public class Property {
     public static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
     public static final String SCHEDULER_ACTIVATION = "SCHEDULER_ACTIVATION";
-    public static final String SCHEDULER_ACCESS_TOKEN = "SCHEDULER_ACCESS_TOKEN";
     public static final String SCHEDULER_INTEGRATION = "SCHEDULER_INTEGRATION";
 
     public static final String USE_DEFAULT_WAREHOUSE = "USE_DEFAULT_WAREHOUSE";
     public static final String DEFAULT_ANW_WAREHOUSE = "DEFAULT_ANW_WAREHOUSE";
+    public static final String LAST_SYNC_TIME = "_LAST_SYNC_TIME";
+
+    public static String accessToken = null;
 
     public static String getAnwProtocol() throws Exception {
         return PropertyLoader.loadProperty(ANW_PROTOCOL);
@@ -119,11 +124,18 @@ public class Property {
     }
 
     public static String getAccessToken() throws Exception {
-        return PropertyLoader.loadProperty(ACCESS_TOKEN);
+        if ("DEV".equals(System.getenv(""))) {
+            return PropertyLoader.loadProperty(ACCESS_TOKEN);
+        }
+        return accessToken;
     }
 
+    // do not save sensitive information in product environment.
     public static void saveAccessToken(String value) throws Exception {
-        PropertyLoader.saveProperty(ACCESS_TOKEN, value);
+        if ("DEV".equals(System.getenv(""))) {
+            PropertyLoader.saveProperty(ACCESS_TOKEN, value);
+        }
+        accessToken = value;
     }
 
     public static boolean getSchedulerActivation() throws Exception {
@@ -132,14 +144,6 @@ public class Property {
 
     public static void saveSchedulerActivation(String value) throws Exception {
         PropertyLoader.saveProperty(SCHEDULER_ACTIVATION, value);
-    }
-
-    public static String getSchedulerAccessToken() throws Exception {
-        return PropertyLoader.loadProperty(SCHEDULER_ACCESS_TOKEN);
-    }
-
-    public static void saveSchedulerAccessToken(String value) throws Exception {
-        PropertyLoader.saveProperty(SCHEDULER_ACCESS_TOKEN, value);
     }
 
     public static String getSchedulerIntegration() throws Exception {
@@ -169,20 +173,33 @@ public class Property {
     public static void saveUseDefaultWarehouse(String value) throws Exception {
         PropertyLoader.saveProperty(USE_DEFAULT_WAREHOUSE, value);
     }
-    
-	public static String getWebhookListenURL(String type) throws Exception {
-		return PropertyLoader.loadProperty(URL_WEBHOOK_LISTEN_URL + type);
-	}
 
-	public static void setWebhookListenURL(String type, String value) throws Exception {
-		PropertyLoader.saveProperty(URL_WEBHOOK_LISTEN_URL + type, value);
-	}
-	
-	public static void setWebhookEventId(String type, Long id) throws ConfigurationException {
-		PropertyLoader.saveProperty("WEBHOOK_" + type, id);
-	}
-	
-	public static Long getWebhookEventId(String type) throws Exception{
-		return Long.parseLong(PropertyLoader.loadProperty("WEBHOOK_"+ type));
-	}
+    public static String getWebhookListenBaseURL() throws Exception {
+        return PropertyLoader.loadProperty(WEBHOOK_LISTEN_BASE_URL);
+    }
+
+    public static void setWebhookEventId(String type, Long id) throws ConfigurationException {
+        PropertyLoader.saveProperty("WEBHOOK_" + type, id);
+    }
+
+    public static Long getWebhookEventId(String type) throws Exception {
+        return Long.parseLong(PropertyLoader.loadProperty("WEBHOOK_" + type));
+    }
+
+    public static DateTime getLastSyncTime(String type) throws ConfigurationException {
+        try {
+            String lastSyncTime = PropertyLoader.loadProperty(type + LAST_SYNC_TIME);
+            if (StringUtils.isEmpty(lastSyncTime)) {
+                DateTime now = new DateTime();
+                PropertyLoader.saveProperty(type + LAST_SYNC_TIME, now.toString());
+                return now;
+            }
+            return new DateTime(lastSyncTime);
+        } catch (Exception e) {
+            DateTime now = new DateTime();
+            PropertyLoader.saveProperty(type + LAST_SYNC_TIME, now.toString());
+            return now;
+        }
+
+    }
 }

@@ -5,11 +5,9 @@ import java.net.URI;
 //import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sap.integration.anywhere.AnwServiceCall;
-import com.sap.integration.anywhere.AnwUrlUtil;
+import com.sap.integration.anywhere.url.AnwUrlUtil;
 import com.sap.integration.utils.HttpsCallUtil;
 import com.sap.integration.utils.JsonUtil;
 import com.sap.integration.utils.UrlBuilder;
@@ -51,10 +49,10 @@ public class AccessTokenLoader {
     	else if ("POST".equalsIgnoreCase(type)) {
     		content = AnwUrlUtil.getAccessTokenViaPost(); 
     	}
-        LOG.info("Access Token - retrieved response: " + content);
+        LOG.info("Access Token - retrieved success ");
         AccessTokenDto accessToken = JsonUtil.getObject(content, AccessTokenDto.class);
         Property.saveAccessToken(accessToken.getAccess_token());
-        LOG.info("Access Token - loaded access token = " + accessToken.getAccess_token());
+        LOG.info("Access Token - success loaded access token! ");
         return accessToken.getAccess_token();
     }
 }

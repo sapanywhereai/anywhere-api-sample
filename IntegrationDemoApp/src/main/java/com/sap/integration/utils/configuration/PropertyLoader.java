@@ -1,7 +1,12 @@
 package com.sap.integration.utils.configuration;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.jasypt.properties.EncryptableProperties;
 
 /**
  * Class, which loads/saves properties from/to the configuration file. <br>
@@ -11,7 +16,7 @@ public class PropertyLoader {
     /** Variable stores path and name of configuration file */
     private static String configurationFile = "config.properties";
     private static PropertiesConfiguration propertiesConfiguarion = null;
-
+    private static Properties props;
     /**
      * Method, which returns name or path and name of configuration file (it depends on input parameter to the application)
      * 
@@ -34,17 +39,21 @@ public class PropertyLoader {
     /**
      * Method which loads values of parameter with entered name. <br>
      * 
+     * refresh-token needs to be encrypted
+     * 
      * @param propertyName - name of property, which will be loaded <br>
      * @return value of entered parameter <br>
      * @throws ConfigurationException
      * @throws Exception possible exception during the processing
      */
     public static String loadProperty(final String propertyName) throws Exception {
-        if (propertiesConfiguarion == null) {
-            propertiesConfiguarion = new PropertiesConfiguration(PropertyLoader.configurationFile);
+        if(props == null){
+            StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();     
+            encryptor.setPassword("sap.anywhere");
+            props = new EncryptableProperties(encryptor);  
+            props.load(new FileInputStream(PropertyLoader.configurationFile));
         }
-
-        return propertiesConfiguarion.getString(propertyName);
+        return props.getProperty(propertyName);
     }
 
     /**

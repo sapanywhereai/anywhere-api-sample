@@ -22,12 +22,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.log4j.Logger;
 
+import com.sap.integration.anywhere.SimpleResponse;
+
 public class HttpsCallUtil {
 	private static final Logger LOG = Logger.getLogger(HttpsCallUtil.class);
 
 	private static HttpClientBuilder httpClientBuilder = null;
 	
-	private static int HTTP_STATUS_TOO_MANY_REQEUEST = 429;
 
 	/**
 	 * HTTP GET request, retrieving data by object URL.
@@ -87,11 +88,6 @@ public class HttpsCallUtil {
 			e.printStackTrace();
 		} finally {
 			close(closeableHttpClient);
-		}
-		// 429 over rate limiter
-		if (response.getStatusCode() == HTTP_STATUS_TOO_MANY_REQEUEST) {
-			Thread.sleep(1000l);
-			return executeRequest(httpUriRequest, response);
 		}
 		return response;
 	}
