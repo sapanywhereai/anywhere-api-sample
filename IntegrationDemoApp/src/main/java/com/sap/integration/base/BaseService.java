@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.springframework.util.CollectionUtils;
 
 import com.sap.integration.anywhere.AnwServiceCall;
 import com.sap.integration.anywhere.AnwSimpleResponse;
@@ -124,6 +125,9 @@ public abstract class BaseService {
 
             anwObjectsPage = (List<IAnwDto>) JsonUtil.getObjects(AnwServiceCall.get(urlBuilder, null).getContent(),
                     anwIntegrationState.getDtoClass());
+            if(CollectionUtils.isEmpty(anwObjectsPage)){
+                return anwObjects;
+            }
             anwObjects.addAll(anwObjectsPage);
             offset += AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT;
         } while (anwObjectsPage.size() == AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT);

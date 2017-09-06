@@ -124,15 +124,12 @@ public class Property {
     }
 
     public static String getAccessToken() throws Exception {
-        if ("DEV".equals(System.getenv(""))) {
-            return PropertyLoader.loadProperty(ACCESS_TOKEN);
-        }
         return accessToken;
     }
 
     // do not save sensitive information in product environment.
     public static void saveAccessToken(String value) throws Exception {
-        if ("DEV".equals(System.getenv(""))) {
+        if ("DEV".equals(System.getenv("ENV"))) {
             PropertyLoader.saveProperty(ACCESS_TOKEN, value);
         }
         accessToken = value;

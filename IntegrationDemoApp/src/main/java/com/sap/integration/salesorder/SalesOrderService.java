@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.util.CollectionUtils;
 
 import com.sap.integration.anywhere.AnwServiceCall;
 import com.sap.integration.anywhere.AnwSimpleResponse;
@@ -111,6 +112,9 @@ public class SalesOrderService {
                     .parameter("expand", "productLines");
 
             anwSalesOrdersPage = JsonUtil.getObjects(AnwServiceCall.get(urlBuilder, null).getContent(), AnwSalesOrderDto.class);
+            if(CollectionUtils.isEmpty(anwSalesOrdersPage)){
+                return anwSalesOrders;
+            }
             anwSalesOrders.addAll(anwSalesOrdersPage);
             offset += AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT;
         } while (anwSalesOrdersPage.size() == AnwUrlUtil.OPENAPI_QEURY_OPTION_LIMIT);

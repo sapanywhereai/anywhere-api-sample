@@ -2,6 +2,8 @@ package com.sap.integration.webhook.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,8 +43,8 @@ public class AnwWebhookRegister {
                 updateRegisterURL(id, webhook);
                 logger.info("successful is updated " + eventType + " on" + url);
             } else {
-                throw new Exception(String.format("Create webhook failure!, Response from server was: %s, url is %s",
-                        response.getContent(), url));
+                throw new Exception(String.format("Create webhook failure!, Response from server is: %s, response code is: %s, url is %s",
+                        response.getContent(), response.getStatusCode(), url));
             }
         }
         logger.info("successful register event " + eventType + " on " + url);
