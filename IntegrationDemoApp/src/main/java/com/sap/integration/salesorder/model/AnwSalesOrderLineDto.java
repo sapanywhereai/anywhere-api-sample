@@ -2,7 +2,6 @@ package com.sap.integration.salesorder.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.sap.integration.product.model.AnwSkuDto;
 import com.sap.integration.salesorder.model.enumeration.AnwSalesOrderLineCalculationBaseDto;
 
 /**
@@ -18,7 +17,6 @@ public class AnwSalesOrderLineDto {
     private Double grossUnitPrice;
     private AnwAmountDto grossAmount;
     private AnwSalesOrderLineCalculationBaseDto calculationBase;
-    private AnwSkuDto sku;
     private AnwUomDto salesUom;
 
     public Long getId() {
@@ -77,14 +75,6 @@ public class AnwSalesOrderLineDto {
         this.calculationBase = calculationBase;
     }
 
-    public AnwSkuDto getSku() {
-        return this.sku;
-    }
-
-    public void setSku(AnwSkuDto sku) {
-        this.sku = sku;
-    }
-
     public AnwUomDto getSalesUom() {
         return this.salesUom;
     }
@@ -106,8 +96,6 @@ public class AnwSalesOrderLineDto {
         sb.append(this.inventoryUomQuantity);
         sb.append(", calculationBase=");
         sb.append(this.calculationBase);
-        sb.append(", sku=");
-        sb.append(this.sku);
         sb.append(", salesUom=");
         sb.append(this.salesUom);
         sb.append("]");

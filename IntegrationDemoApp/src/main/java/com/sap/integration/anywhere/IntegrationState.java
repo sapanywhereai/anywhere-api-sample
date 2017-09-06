@@ -58,6 +58,9 @@ public class IntegrationState implements Serializable {
             return new IntegrationState(dtoClass.getName(), lastSycnTime);
         } catch (ConfigurationException e) {
             e.printStackTrace();
+            /*
+             * first sync, 2nd parameter needs to be a time which is less than SAP anywhere's data. 
+             */
             return new IntegrationState(dtoClass.getName(), new DateTime());
         }
     }

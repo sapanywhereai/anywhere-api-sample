@@ -1,7 +1,5 @@
 package com.sap.integration.product.model;
 
-import java.util.List;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 
@@ -21,8 +19,6 @@ public class AnwProductDto implements IAnwDto {
     private Boolean variantEnabled;
     private DateTime updateTime;
 
-    // For following properties is not implemented integration, added only because of need in reports
-    private List<AnwSkuDto> skus;
 
     public AnwProductDto() {
     }
@@ -94,14 +90,6 @@ public class AnwProductDto implements IAnwDto {
 
     public void setUpdateTime(DateTime updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public List<AnwSkuDto> getSkus() {
-        return skus;
-    }
-
-    public void setSkus(List<AnwSkuDto> skus) {
-        this.skus = skus;
     }
 
     public DateTime getLastSyncTime() {

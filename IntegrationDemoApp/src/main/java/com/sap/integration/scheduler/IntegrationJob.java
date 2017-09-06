@@ -6,7 +6,6 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import com.sap.integration.customer.CustomerIntegration;
 import com.sap.integration.product.ProductIntegration;
 import com.sap.integration.salesorder.SalesOrderIntegration;
 import com.sap.integration.utils.DateUtil;
@@ -33,7 +32,7 @@ public class IntegrationJob implements Job {
     }
 
     /**
-     * Method, which calls classes and methods which provides integration between SAP Anywhere and custom ERP.
+     * Provides integration between SAP Anywhere and custom APP.
      */
     public static void runIntegration() {
 
@@ -47,21 +46,16 @@ public class IntegrationJob implements Job {
             DateTime start = DateTime.now();
             LOG.info("Start of integration process at " + start);
 
+            // TODO Needs info dev review it
+            /*
+             * Integration can from sap anywhere or to.
+             */
             try {
                 // MASTER DATA
-                // CustomerIntegration.syncFromSapAnywhere();
-                // CustomerIntegration.syncToSapAnywhere();
-                ProductIntegration.syncFromSapAnywhere();
                 ProductIntegration.syncToSapAnywhere();
 
                 // SALES ORDERS
-                // You have to possibilities - to integrate Sales orders from SAP Anywhere to ERP or from ERP to SAP
-                // Anywhere.
-                // Both of them are implemented in this version of application, you may choose, which version do you
-                // want to
-                // use and comment/uncomment it respectively.
                 SalesOrderIntegration.syncFromSapAnywhere();
-                SalesOrderIntegration.syncToSapAnywhere();
 
             } catch (Exception e) {
                 LOG.error("Exception " + e.getMessage(), e);

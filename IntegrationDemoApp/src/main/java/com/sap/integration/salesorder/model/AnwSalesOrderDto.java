@@ -16,8 +16,6 @@ public class AnwSalesOrderDto {
     private Long id;
     private String docNumber;
     private AnwMarketingDocumentCustomerDto customer;
-    private AnwChannelDto channel;
-    private AnwCurrencyDto currency;
     private AnwSalesOrderPricingMethodDto pricingMethod;
     private List<AnwSalesOrderLineDto> productLines;
     private AnwAmountDto grossTotal;
@@ -54,22 +52,6 @@ public class AnwSalesOrderDto {
 
     public void setCustomer(AnwMarketingDocumentCustomerDto customer) {
         this.customer = customer;
-    }
-
-    public AnwChannelDto getChannel() {
-        return this.channel;
-    }
-
-    public void setChannel(AnwChannelDto channel) {
-        this.channel = channel;
-    }
-
-    public AnwCurrencyDto getCurrency() {
-        return this.currency;
-    }
-
-    public void setCurrency(AnwCurrencyDto currency) {
-        this.currency = currency;
     }
 
     public AnwSalesOrderPricingMethodDto getPricingMethod() {
@@ -121,10 +103,6 @@ public class AnwSalesOrderDto {
         sb.append(this.docNumber);
         sb.append(", customer=");
         sb.append(this.customer);
-        sb.append(", channel=");
-        sb.append(this.channel);
-        sb.append(", currency=");
-        sb.append(this.currency);
         sb.append(", pricingMethod=");
         sb.append(this.pricingMethod);
         sb.append(", productLines=");

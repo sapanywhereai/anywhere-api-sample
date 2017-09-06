@@ -9,16 +9,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.sap.integration.anywhere.AccessTokenGetter;
-import com.sap.integration.anywhere.url.AnwUrlUtil;
+import com.sap.integration.customer.CustomerWebhookRegister;
 import com.sap.integration.scheduler.IntegrationJob;
 import com.sap.integration.scheduler.JobScheduler;
 import com.sap.integration.utils.configuration.Property;
 import com.sap.integration.utils.configuration.PropertyLoader;
-import com.sap.integration.webhook.definition.WebhookEventType;
-import com.sap.integration.webhook.util.AnwWebhookRegister;
 
 /**
- * Main class containing methods and calls, which will start all integration.
+ * Main class
  */
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = { org.springframework.boot.autoconfigure.session.SessionAutoConfiguration.class })
@@ -32,11 +30,11 @@ public class Application {
     private static final Logger LOG = Logger.getLogger(Application.class);
 
     /**
-     * Main method, which starts whole integration cycle. As input it takes two
-     * parameters, which represents path to configuration file and its name. It
-     * should be written in following form:
-     * <code>-configFile pathToConfigurationFileWithItsName</code> When these
-     * two parameters are empty, default config.properties file attached to the
+     * Main method.
+     * As input it takes two parameters, which represents path to configuration file and its name.
+     * It should be written in following form:
+     * <code>-configFile pathToConfigurationFileWithItsName</code>
+     * When these two parameters are empty, default config.properties file attached to the
      * application will be taken as main configuration file.
      * 
      * @param args
@@ -68,9 +66,12 @@ public class Application {
                 IntegrationJob.runIntegration();
             }
 
+            /*
+             * needs define WEBHOOK_LISTEN_BASE_URL in file "config.properties"
+             */
             String basicUrl = Property.getWebhookListenBaseURL();
             if (StringUtils.isNotEmpty(basicUrl) && !"notDefined".equals(basicUrl)) {
-                AnwWebhookRegister.registerWebhook(Property.getWebhookListenBaseURL());
+                CustomerWebhookRegister.registerWebhook(Property.getWebhookListenBaseURL());
             }
         } catch (Exception e) {
             LOG.info("Exception " + e.getMessage(), e);

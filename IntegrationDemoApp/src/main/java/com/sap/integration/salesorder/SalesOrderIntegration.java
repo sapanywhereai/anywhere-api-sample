@@ -16,44 +16,25 @@ public class SalesOrderIntegration {
     private static final Logger LOG = Logger.getLogger(SalesOrderIntegration.class);
 
     /**
-     * Integration of sales order from SAP Anywhere to ERP.
+     * Integration of sales order from SAP Anywhere to APP.
      * 
-     * @throws Exception possible exception during the processing
+     * @throws Exception
+     *             possible exception during the processing
      */
     public static void syncFromSapAnywhere() throws Exception {
         // log start
         DateTime start = DateTime.now();
-        LOG.info("Start of integration SAP Anywhere to ERP");
+        LOG.info("Start of SalesOrder integration SAP Anywhere to APP");
 
         // read Sales Orders from SAP Anywhere and get their DTO object representation
         List<AnwSalesOrderDto> anwSalesOrderDtos = SalesOrderService.getAnwSalesOrders();
 
-        // convert SAP Anywhere's DTO value into ERP native format and persist it in ERP
-//        SalesOrderService.postErpSalesOrders(anwSalesOrderDtos);
+        /*
+         * convert SAP Anywhere's DTO value into APP native format, and persist it or what you want to do
+         */
 
         // log end
-        LOG.info("End of integration SAP Anywhere to ERP");
-        LOG.info("Step duration time: " + DateUtil.getDurationTime(start, DateTime.now()));
-    }
-
-    /**
-     * Integration of Sales Order from ERP to SAP Anywhere.
-     * 
-     * @throws Exception possible exception during the processing
-     */
-    public static void syncToSapAnywhere() throws Exception {
-        // log start
-        DateTime start = DateTime.now();
-        LOG.info("Start of integration ERP to SAP Anywhere");
-
-        // read Sales Orders from ERP and get their DTO object representation
-//        List<ErpSalesOrderDto> erpSalesOrders = SalesOrderService.getErpSalesOrders();
-
-        // post ERP sales orders
-//        SalesOrderService.postAnwSalesOrders(erpSalesOrders);
-
-        // log end
-        LOG.info("End of integration ERP to SAP Anywhere");
+        LOG.info("End of SalesOrder integration SAP Anywhere to APP");
         LOG.info("Step duration time: " + DateUtil.getDurationTime(start, DateTime.now()));
     }
 }
